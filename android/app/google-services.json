@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "758005920349",
+    "firebase_url": "https://beer-data-userapp.firebaseio.com",
+    "project_id": "beer-data-userapp",
+    "storage_bucket": "beer-data-userapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758005920349:android:799ad38c23f4df7d5a13b4",
+        "android_client_info": {
+          "package_name": "com.example.tutorial_ninja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758005920349-nsdb45d10f0u1l2kuh9rdndlm5viq85u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tutorial_ninja",
+            "certificate_hash": "81741670180baf71230c0e90943622e1b606bc9a"
+          }
+        },
+        {
+          "client_id": "758005920349-hm1d67v9qj0n9o34t89c0f458ugngfb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZOmoHM-tK_xo7d7KerLvkiT1PRp-mi7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758005920349-hm1d67v9qj0n9o34t89c0f458ugngfb9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
