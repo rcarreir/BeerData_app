@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_ninja/models/user.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/home.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/mainScreen.dart';
+import 'package:tutorial_ninja/screens/authenticate/home/MainScreen.dart';
 import 'package:tutorial_ninja/services/auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
+import 'PanelDrawer.dart';
 
-class Cervezas extends StatelessWidget {
-  final AuthService _auth = AuthService();
-  final databaseReference = FirebaseDatabase.instance.reference();
-  TextEditingController canilla = TextEditingController();
+class Cervezas extends StatefulWidget {
   final User user;
   Cervezas({this.user});
+
+  @override
+  _CervezasState createState() => _CervezasState();
+}
+
+class _CervezasState extends State<Cervezas> {
+  final AuthService _auth = AuthService();
+  final databaseReference = FirebaseDatabase.instance.reference();
+  TextEditingController qrCanilla = TextEditingController();
+  Future qrCanillaCam;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('BeerData Home'),
+        title: Text('Comprar cerveza'),
         backgroundColor: Colors.red,
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.arrow_drop_down_circle),
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            label: Text('Salir'),
-          )
-        ],
       ),
       body: Center(
         child: Padding(
@@ -37,55 +35,10 @@ class Cervezas extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              /* RaisedButton(
-              child: Text('Create Data'),
-              color: Colors.redAccent,
-              onPressed: () {
-                createData();
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            RaisedButton(
-              child: Text('Read/View Data'),
-              color: Colors.redAccent,
-              onPressed: () {
-                readData();
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
-            SizedBox(
-              height: 8,
-            ),*/
-              RaisedButton(
-                child: Text('CREAR PEDIDO'),
-                color: Colors.red,
-                onPressed: () {
-                  updateData(canilla.text);
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              /* RaisedButton(
-              child: Text('Delete Data'),
-              color: Colors.redAccent,
-              onPressed: () {
-                deleteData();
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),*/
               TextField(
-                controller: canilla,
+                controller: qrCanilla,
                 decoration: InputDecoration(
-                  labelText: 'QR',
+                  labelText: 'Ingresar número de canilla',
                   icon: Icon(Icons.access_time),
                   fillColor: Colors.grey,
                 ),
@@ -93,11 +46,55 @@ class Cervezas extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
+              Text(
+                'o',
+                style: TextStyle(color: Colors.grey, fontSize: 21),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              RaisedButton(
+                child: Text('ESCANEAR QR'),
+                color: Colors.red,
+                onPressed: () {
+                  qrCanillaCam = scanQRCode();
+                  /*
+                  setState(() {
+                    _canillaText = qrCanillaCam as String;
+                  });*/
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                qrCanillaCam,
+                style: TextStyle(color: Colors.black, fontSize: 30.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 250,
+              ),
+              RaisedButton(
+                child: Text('CREAR PEDIDO'),
+                color: Colors.red,
+                onPressed: () {
+                  updateData(qrCanilla.text);
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+              ),
+              SizedBox(
+                height: 8,
+              ),
               RaisedButton(
                 child: Text('EXIT', style: TextStyle(color: Colors.white)),
                 color: Colors.black,
                 onPressed: () {
-                  exitState(canilla.text);
+                  exitState(qrCanilla.text);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -106,82 +103,7 @@ class Cervezas extends StatelessWidget {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/drawerBackground.png"),
-                  ),
-                ),
-                accountEmail: Text(user.email),
-                accountName: Text("Rodrigo Carreira"),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/cristina.jpg"),
-                )),
-            /* DrawerHeader(
-              child: Text('Beer Data'),
-              decoration: BoxDecoration(
-                color: Colors.red,
-              ),
-            ),*/
-            ListTile(
-              leading: Icon(Icons.home),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              title: Text('Home'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                //Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MainScreen(user: user)),
-                );
-                //Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              title: Text('Cuenta'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.grain),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              title: Text('Cervezas'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              title: Text('Acerca de'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: PanelDrawer(user: widget.user),
     );
   }
 
@@ -195,9 +117,11 @@ class Cervezas extends StatelessWidget {
   }
 
   void createData() {
+    /*
     databaseReference
         .child("flutterDevsTeam1")
-        .set({'name': 'Deepak Nishad', 'description': 'Team Lead'});
+        .set({'name': 'Deepak Nishad', 'description': 'Team Lead'});*/
+    print('$qrCanillaCam');
   }
 
   void readData() {
@@ -221,7 +145,11 @@ class Cervezas extends StatelessWidget {
         .child("BarFalso1")
         .child("Pedido")
         .child(qr)
-        .update({'UID': user.uid, 'Estado': 1});
+        .update({'UID': widget.user.uid, 'Estado': 1});
+  }
+
+  Future scanQRCode() async {
+    String cameraScanResult = await scanner.scan();
   }
 
   void deleteData() {
