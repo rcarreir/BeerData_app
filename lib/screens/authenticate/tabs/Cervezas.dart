@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tutorial_ninja/models/user.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/MainScreen.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/MainScreen.dart';
 import 'package:tutorial_ninja/services/auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-import 'PanelDrawer.dart';
+import '../../../shared/PanelDrawer.dart';
 
 class Cervezas extends StatefulWidget {
-  final User user;
-  Cervezas({this.user});
-
   @override
   _CervezasState createState() => _CervezasState();
 }
@@ -22,6 +20,8 @@ class _CervezasState extends State<Cervezas> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -68,14 +68,6 @@ class _CervezasState extends State<Cervezas> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               ),
               SizedBox(
-                height: 15,
-              ),
-              Text(
-                qrCanillaCam,
-                style: TextStyle(color: Colors.black, fontSize: 30.0),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
                 height: 250,
               ),
               RaisedButton(
@@ -103,7 +95,7 @@ class _CervezasState extends State<Cervezas> {
           ),
         ),
       ),
-      drawer: PanelDrawer(user: widget.user),
+      drawer: PanelDrawer(),
     );
   }
 
@@ -145,7 +137,7 @@ class _CervezasState extends State<Cervezas> {
         .child("BarFalso1")
         .child("Pedido")
         .child(qr)
-        .update({'UID': widget.user.uid, 'Estado': 1});
+        .update({/*'UID': widget.user.uid,*/ 'Estado': 1});
   }
 
   Future scanQRCode() async {

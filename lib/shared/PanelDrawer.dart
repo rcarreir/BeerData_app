@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tutorial_ninja/models/user.dart';
-import 'package:tutorial_ninja/screens/AboutScreen.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/Account.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/MainScreen.dart';
-import 'package:tutorial_ninja/screens/authenticate/home/home.dart';
-import 'package:tutorial_ninja/screens/cervezas.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/AboutScreen.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/Account.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/MainScreen.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/Cervezas.dart';
 
 class PanelDrawer extends StatelessWidget {
-  PanelDrawer({this.user});
-
-  final User user;
-
   @override
   Widget build(BuildContext context) {
+    // final user = Provider.of<User>(context);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -25,8 +23,10 @@ class PanelDrawer extends StatelessWidget {
                   image: AssetImage("assets/images/drawerBackground.png"),
                 ),
               ),
-              accountEmail: Text(user.email),
-              accountName: Text("${user.name}"),
+              // accountEmail: Text("${user.email}"),
+              // accountName: Text("${user.name}"),
+              accountEmail: Text("Email"),
+              accountName: Text("Nombre"),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: AssetImage("assets/images/cristina.jpg"),
               )),
@@ -36,9 +36,9 @@ class PanelDrawer extends StatelessWidget {
             title: Text('Inicio'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen(user: user)),
+                MaterialPageRoute(builder: (context) => MainScreen()),
               );
             },
           ),
@@ -48,9 +48,9 @@ class PanelDrawer extends StatelessWidget {
             title: Text('Cuenta'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Account(user: user)),
+                MaterialPageRoute(builder: (context) => Account()),
               );
             },
           ),
@@ -60,9 +60,9 @@ class PanelDrawer extends StatelessWidget {
             title: Text('Cervezas'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Cervezas(user: user)),
+                MaterialPageRoute(builder: (context) => Cervezas()),
               );
             },
           ),
@@ -72,7 +72,7 @@ class PanelDrawer extends StatelessWidget {
             title: Text('Acerca de'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => AboutScreen()),
               );

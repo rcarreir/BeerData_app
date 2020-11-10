@@ -1,4 +1,4 @@
-import 'package:tutorial_ninja/screens/authenticate/home/mainScreen.dart';
+import 'package:tutorial_ninja/screens/authenticate/tabs/MainScreen.dart';
 import 'package:tutorial_ninja/screens/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
-      value: AuthService().user,
+      value: AuthService().userStream,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),
     );
