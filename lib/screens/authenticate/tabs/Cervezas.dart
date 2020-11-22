@@ -17,6 +17,15 @@ class _CervezasState extends State<Cervezas> {
   final databaseReference = FirebaseDatabase.instance.reference();
   TextEditingController qrCanilla = TextEditingController();
   Future qrCanillaCam;
+  String _lecturaQR;
+  bool _isButtonEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _isButtonEnabled = false;
+    _lecturaQR = '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +68,8 @@ class _CervezasState extends State<Cervezas> {
                 color: Colors.red,
                 onPressed: () {
                   qrCanillaCam = scanQRCode();
+                  print(qrCanillaCam);
+
                   /*
                   setState(() {
                     _canillaText = qrCanillaCam as String;
@@ -68,14 +79,31 @@ class _CervezasState extends State<Cervezas> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               ),
               SizedBox(
-                height: 250,
+                height: 50.0,
+                width: MediaQuery.of(context).size.width,
+                child: Card(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 5.0, top: 5.0),
+                      /*child: Text(
+                        'Luego de escanear el código de la canilla, presione Crear Pedido',
+                        style: TextStyle(fontSize: 17.0),
+                      ),         */
+                      child: Text(
+                        '$_lecturaQR',
+                        style: TextStyle(fontSize: 17.0),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 25,
               ),
               RaisedButton(
                 child: Text('CREAR PEDIDO'),
                 color: Colors.red,
-                onPressed: () {
-                  updateData(qrCanilla.text);
-                },
+                disabledColor: Colors.grey,
+                onPressed: _isButtonEnabled
+                    ? () => crearPedidoDB(_lecturaQR, user)
+                    : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               ),
@@ -86,7 +114,7 @@ class _CervezasState extends State<Cervezas> {
                 child: Text('EXIT', style: TextStyle(color: Colors.white)),
                 color: Colors.black,
                 onPressed: () {
-                  exitState(qrCanilla.text);
+                  exitState(_lecturaQR);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -106,14 +134,19 @@ class _CervezasState extends State<Cervezas> {
         .child("Pedido")
         .child(qr)
         .update({'Estado': 0});
+    setState(() {
+      _isButtonEnabled = false;
+      _lecturaQR = '';
+    });
   }
 
-  void createData() {
-    /*
+  void crearPedidoDB(String qr, User user) {
     databaseReference
-        .child("flutterDevsTeam1")
-        .set({'name': 'Deepak Nishad', 'description': 'Team Lead'});*/
-    print('$qrCanillaCam');
+        .child("Bares")
+        .child("BarFalso1")
+        .child("Pedido")
+        .child(qr)
+        .update({'UID': user.uid, 'Estado': 1});
   }
 
   void readData() {
@@ -141,7 +174,34 @@ class _CervezasState extends State<Cervezas> {
   }
 
   Future scanQRCode() async {
-    String cameraScanResult = await scanner.scan();
+    String temp = await scanner.scan();
+    if (temp == 'BeerDataBarFalso1QR2') {
+      setState(() {
+        _isButtonEnabled = true;
+        _lecturaQR = 'QR1';
+      });
+    } else if (temp == 'BeerDataBarFalso1QR2') {
+      setState(() {
+        _isButtonEnabled = true;
+        _lecturaQR = 'QR2';
+      });
+    } else if (temp == 'BeerDataBarFalso1QR3') {
+      setState(() {
+        _isButtonEnabled = true;
+        _lecturaQR = 'QR3';
+      });
+    } else if (temp == 'BeerDataBarFalso1QR4') {
+      setState(() {
+        _isButtonEnabled = true;
+        _lecturaQR = 'QR4';
+      });
+    } else {
+      setState(() {
+        _isButtonEnabled = false;
+        _lecturaQR = '¡QR INVÁLIDO!';
+      });
+    }
+    //databaseReference.update({'TestPedido': lecturaQR});
   }
 
   void deleteData() {

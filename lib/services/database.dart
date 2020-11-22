@@ -20,6 +20,12 @@ class DatabaseService {
     });
   }
 
+  updateUserData(dynamic campo, dynamic valor) {
+    databaseReference.child("Clientes").child("Usuario").child(uid).set({
+      '$campo': valor,
+    });
+  }
+
 //Creo un objeto de usuario con el snapshot leido de firebase
 
   UserAccount userAccountFromSnapshot(DataSnapshot snapshot) {
