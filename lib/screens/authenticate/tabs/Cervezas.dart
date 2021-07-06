@@ -18,6 +18,7 @@ class _CervezasState extends State<Cervezas> {
   TextEditingController qrCanilla = TextEditingController();
   Future qrCanillaCam;
   String _lecturaQR;
+  String _mensajeConectado;
   bool _isButtonEnabled;
 
   @override
@@ -25,6 +26,8 @@ class _CervezasState extends State<Cervezas> {
     super.initState();
     _isButtonEnabled = false;
     _lecturaQR = '';
+    _mensajeConectado =
+        'Asegurate de estar frente a la canilla para escanear el código QR en pantalla.';
   }
 
   @override
@@ -44,7 +47,7 @@ class _CervezasState extends State<Cervezas> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextField(
+              /* TextField(
                 controller: qrCanilla,
                 decoration: InputDecoration(
                   labelText: 'Ingresar número de canilla',
@@ -53,7 +56,7 @@ class _CervezasState extends State<Cervezas> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 20,
               ),
               Text(
                 'o',
@@ -61,43 +64,41 @@ class _CervezasState extends State<Cervezas> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 15,
-              ),
+                height: 20,
+              ),*/
               RaisedButton(
                 child: Text('ESCANEAR QR'),
                 color: Colors.red,
                 onPressed: () {
-                  qrCanillaCam = scanQRCode();
-                  print(qrCanillaCam);
-
-                  /*
-                  setState(() {
-                    _canillaText = qrCanillaCam as String;
-                  });*/
+                  qrCanillaCam = scanQRCode(user);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               ),
               SizedBox(
-                height: 50.0,
+                height: 25,
+              ),
+              SizedBox(
+                height: 55.0,
                 width: MediaQuery.of(context).size.width,
                 child: Card(
+                  color: Colors.amber[50],
                   child: Padding(
-                      padding: EdgeInsets.only(left: 5.0, top: 5.0),
+                      padding: EdgeInsets.only(left: 5.0, top: 7.0),
                       /*child: Text(
                         'Luego de escanear el código de la canilla, presione Crear Pedido',
                         style: TextStyle(fontSize: 17.0),
                       ),         */
                       child: Text(
-                        '$_lecturaQR',
-                        style: TextStyle(fontSize: 17.0),
+                        '$_mensajeConectado',
+                        style: TextStyle(fontSize: 18.0),
                       )),
                 ),
               ),
               SizedBox(
                 height: 25,
               ),
-              RaisedButton(
+              /*  RaisedButton(
                 child: Text('CREAR PEDIDO'),
                 color: Colors.red,
                 disabledColor: Colors.grey,
@@ -109,13 +110,13 @@ class _CervezasState extends State<Cervezas> {
               ),
               SizedBox(
                 height: 8,
-              ),
+              ),*/
               RaisedButton(
-                child: Text('EXIT', style: TextStyle(color: Colors.white)),
+                child: Text('TERMINAR', style: TextStyle(color: Colors.white)),
                 color: Colors.black,
-                onPressed: () {
-                  exitState(_lecturaQR);
-                },
+                disabledColor: Colors.grey,
+                onPressed:
+                    _isButtonEnabled ? () => exitState(_lecturaQR, user) : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               ),
@@ -127,16 +128,18 @@ class _CervezasState extends State<Cervezas> {
     );
   }
 
-  void exitState(String qr) {
+  void exitState(String qr, User user) {
     databaseReference
         .child("Bares")
         .child("BarFalso1")
         .child("Pedido")
         .child(qr)
-        .update({'Estado': 0});
+        .set({'UID': user.uid, 'Estado': 0});
     setState(() {
       _isButtonEnabled = false;
       _lecturaQR = '';
+      _mensajeConectado =
+          'Asegurate de estar frente a la canilla para escanear el código QR en pantalla.';
     });
   }
 
@@ -146,7 +149,7 @@ class _CervezasState extends State<Cervezas> {
         .child("BarFalso1")
         .child("Pedido")
         .child(qr)
-        .update({'UID': user.uid, 'Estado': 1});
+        .set({'UID': user.uid, 'Estado': 1});
   }
 
   void readData() {
@@ -173,32 +176,45 @@ class _CervezasState extends State<Cervezas> {
         .update({/*'UID': widget.user.uid,*/ 'Estado': 1});
   }
 
-  Future scanQRCode() async {
+  Future scanQRCode(User user) async {
     String temp = await scanner.scan();
     if (temp == 'BeerDataBarFalso1QR2') {
       setState(() {
         _isButtonEnabled = true;
         _lecturaQR = 'QR1';
+        crearPedidoDB(_lecturaQR, user);
+        _mensajeConectado =
+            'Conectado con la canilla 1. Cuando termines de servite presiona TERMINAR.';
       });
     } else if (temp == 'BeerDataBarFalso1QR2') {
       setState(() {
         _isButtonEnabled = true;
         _lecturaQR = 'QR2';
+        crearPedidoDB(_lecturaQR, user);
+        _mensajeConectado =
+            'Conectado con la canilla 2. Cuando termines de servite presiona TERMINAR.';
       });
     } else if (temp == 'BeerDataBarFalso1QR3') {
       setState(() {
         _isButtonEnabled = true;
         _lecturaQR = 'QR3';
+        crearPedidoDB(_lecturaQR, user);
+        _mensajeConectado =
+            'Conectado con la canilla 3. Cuando termines de servite presiona TERMINAR.';
       });
     } else if (temp == 'BeerDataBarFalso1QR4') {
       setState(() {
         _isButtonEnabled = true;
         _lecturaQR = 'QR4';
+        crearPedidoDB(_lecturaQR, user);
+        _mensajeConectado =
+            'Conectado con la canilla 4. Cuando termines de servite presiona TERMINAR.';
       });
     } else {
       setState(() {
         _isButtonEnabled = false;
-        _lecturaQR = '¡QR INVÁLIDO!';
+        _lecturaQR = '';
+        _mensajeConectado = 'El QR no es válido. Volve a intentarlo.';
       });
     }
     //databaseReference.update({'TestPedido': lecturaQR});
