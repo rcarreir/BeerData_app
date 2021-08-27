@@ -205,13 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.1"
-  freezed_annotation:
-    dependency: transitive
-    description:
-      name: freezed_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.1"
   glob:
     dependency: transitive
     description:
@@ -275,13 +268,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3-nullsafety.2"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   logging:
     dependency: transitive
     description:
@@ -303,13 +289,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.5755"
-  mercado_pago_mobile_checkout:
-    dependency: "direct main"
-    description:
-      name: mercado_pago_mobile_checkout
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   mercadopago_sdk:
     dependency: "direct main"
     description:
@@ -583,4 +562,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.10.0-110 <2.11.0"
-  flutter: ">=1.12.13+hotfix.6 <2.0.0"
+  flutter: ">=1.12.13+hotfix.4 <2.0.0"

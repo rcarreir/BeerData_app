@@ -5,12 +5,11 @@ import 'package:tutorial_ninja/screens/authenticate/tabs/AboutScreen.dart';
 import 'package:tutorial_ninja/screens/authenticate/tabs/Account.dart';
 import 'package:tutorial_ninja/screens/authenticate/tabs/MainScreen.dart';
 import 'package:tutorial_ninja/screens/authenticate/tabs/Cervezas.dart';
-import 'package:tutorial_ninja/screens/authenticate/tabs/MercadoPago.dart';
 
 class PanelDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    // final user = Provider.of<User>(context);
 
     return Drawer(
       child: ListView(
@@ -29,9 +28,7 @@ class PanelDrawer extends StatelessWidget {
               accountEmail: Text("Email"),
               accountName: Text("Nombre"),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/profile-logo.png"),
-                backgroundColor: Colors.grey[200],
-                radius: 100.0,
+                backgroundImage: AssetImage("assets/images/cristina.jpg"),
               )),
           ListTile(
             leading: Icon(Icons.home),
@@ -66,18 +63,6 @@ class PanelDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => Cervezas()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.info),
-            trailing: Icon(Icons.keyboard_arrow_right),
-            title: Text('Mercado Pago'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MercadoPago()),
               );
             },
           ),
