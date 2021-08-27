@@ -26,7 +26,7 @@ dependencies:
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+4
   firebase_database: ^3.1.6
-  firebase_core: ^1.3.0
+  firebase_core: ^0.4.4+3
   provider: ^3.1.0  
   material_design_icons_flutter: ^4.0.5755
   icofont_flutter: ^1.3.0
@@ -66,7 +66,6 @@ flutter:
     - assets/images/drawerBackground.jpg
     - assets/images/drawerBackground.png
     - assets/images/profile-logo.png
-    - assets/images/Open-NEON.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -92,9 +91,6 @@ flutter:
       fonts:
         - asset: fonts/OfficialBook.ttf
 
-    - family: monofonto
-      fonts:
-        - asset: fonts/monofonto.ttf        
 
 
   #

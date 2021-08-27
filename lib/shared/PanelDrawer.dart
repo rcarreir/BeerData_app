@@ -19,10 +19,10 @@ class PanelDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.red,
-                // image: DecorationImage(
-                //   fit: BoxFit.cover,
-                //   image: AssetImage("assets/images/drawerBackground.png"),
-                // ),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/drawerBackground.png"),
+                ),
               ),
               // accountEmail: Text("${user.email}"),
               // accountName: Text("${user.name}"),

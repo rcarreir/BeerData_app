@@ -15,58 +15,23 @@ class MainScreen extends StatelessWidget {
         elevation: 0.0,
       ),
       drawer: PanelDrawer(),
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 5,
-            width: MediaQuery.of(context).size.width,
-            child: Card(
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/images/drawerBackground.png',
-                    scale: 2,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        "¡Bienvenido a BeerData!",
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'monofonto',
-                            color: Colors.grey[800]),
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              elevation: 4.0,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height / 5,
+        width: MediaQuery.of(context).size.width,
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 28.0),
+            child: Text(
+              "¡Bienvenido a BeerData, el primer bar de BeerCoins!",
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OfficialBook',
+                  color: Colors.grey[800]),
+              textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
-            height: (MediaQuery.of(context).size.height / 5) * 3.2,
-            width: MediaQuery.of(context).size.width,
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 28.0),
-                child: Text(
-                  "",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'OfficialBook',
-                      color: Colors.grey[800]),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              elevation: 4.0,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
